@@ -1,0 +1,30 @@
+version: '3.3'
+
+services:
+   tandmentertainment_wp:
+     depends_on:
+       - tandmentertainment_db
+     image: wordpress:latest
+     volumes:
+       - .:/var/www/html
+     ports:
+       - "8000:80"
+     restart: always
+     environment:
+       WORDPRESS_DB_HOST: tandmentertainment_db:3306
+       WORDPRESS_DB_USER: wordpress
+       WORDPRESS_DB_PASSWORD: my_wordpress_db_password
+
+   tandmentertainment_db:
+     image: mysql:5.7
+     volumes:
+       - tandmentertainment_db_data:/var/lib/mysql
+     restart: always
+     environment:
+       MYSQL_ROOT_PASSWORD: my_db_root_password
+       MYSQL_DATABASE: wordpress
+       MYSQL_USER: wordpress
+       MYSQL_PASSWORD: my_wordpress_db_password
+volumes:
+    tandmentertainment_wp:
+    tandmentertainment_db_data:
